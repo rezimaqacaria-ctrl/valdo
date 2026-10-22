@@ -1,315 +1,266 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="ka">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valdo Real Estate | Exclusive Properties</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        charcoal: '#0a0a0a',
-                        'charcoal-light': '#141414',
-                        'charcoal-card': '#1a1a1a',
-                        bronze: '#d4af37', // Luxury Gold/Bronze
-                        'bronze-dark': '#b5952f',
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Google Fonts & FontAwesome -->
+    <title>Valdo Real Estate | Luxury Properties</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
-        
-        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #141414;
+            --border-color: #262626;
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent: #A3814C; /* Bronze/Gold from your design */
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; }
+        
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(10, 10, 10, 0.9);
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
+        .logo span { color: var(--accent); }
+        .contact-btn {
+            background: transparent; border: 1px solid var(--accent); color: var(--accent);
+            padding: 8px 20px; border-radius: 4px; text-decoration: none; transition: 0.3s;
+        }
+        .contact-btn:hover { background: var(--accent); color: var(--bg-dark); }
+
+        /* Page Views */
+        .page-view { display: none; animation: fadeIn 0.3s ease; }
+        .page-view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- HOME PAGE --- */
+        .hero { padding: 60px 5% 30px; text-align: center; }
+        .hero h1 { font-size: 2.5rem; font-weight: 600; margin-bottom: 10px; }
+        .hero p { color: var(--text-muted); }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
+        
+        .card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px;
+            overflow: hidden; cursor: pointer; transition: 0.3s;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .card-img { width: 100%; height: 250px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .card-price { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+        .card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
+        .card-location { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; }
+        .card-specs { border-top: 1px solid var(--border-color); padding-top: 15px; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* --- DETAIL PAGE --- */
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted);
+            text-decoration: none; margin-bottom: 20px; cursor: pointer; transition: 0.2s;
+        }
+        .back-btn:hover { color: var(--accent); }
+        
+        .detail-hero-img { width: 100%; height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 30px; }
+        .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; flex-wrap: wrap; gap: 20px; }
+        .detail-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .detail-location { color: var(--text-muted); font-size: 1.1rem; }
+        .detail-price-box { background: var(--card-bg); border: 1px solid var(--accent); padding: 20px; border-radius: 8px; text-align: center; min-width: 250px; }
+        .detail-price { font-size: 2rem; color: var(--accent); font-weight: 700; }
+        
+        .detail-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        @media(max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } .detail-hero-img { height: 300px; } }
+        
+        .section-title { font-size: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 20px; color: var(--accent); }
+        .detail-desc { color: var(--text-muted); line-height: 1.8; font-size: 1.05rem; margin-bottom: 30px; }
+        
+        .features-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .features-list li { color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .features-list li i { color: var(--accent); }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .gallery-grid img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .gallery-grid img:hover { transform: scale(1.05); }
+
+        footer { text-align: center; padding: 30px; border-top: 1px solid var(--border-color); color: var(--text-muted); margin-top: 50px; }
     </style>
 </head>
-<body class="bg-charcoal text-gray-200 font-sans antialiased selection:bg-bronze selection:text-black">
+<body>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-40 bg-charcoal/90 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#home" class="flex items-center space-x-2 group cursor-pointer">
-                <span class="text-2xl font-bold tracking-[0.2em] text-white uppercase group-hover:text-bronze transition-colors">VALDO</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-bronze"></span>
-            </a>
-            <div class="flex items-center space-x-4">
-                <a href="https://wa.me/" target="_blank" class="hidden sm:flex items-center space-x-2 text-xs uppercase tracking-widest text-bronze border border-bronze/40 px-5 py-2.5 rounded-full hover:bg-bronze hover:text-black transition-all">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
-                    <span>Contact Us</span>
-                </a>
-            </div>
-        </div>
-    </nav>
+    <header>
+        <div class="logo" onclick="goHome()">Valdo <span>Real Estate</span></div>
+        <a href="https://wa.me/995592613061" target="_blank" class="contact-btn"><i class="fab fa-whatsapp"></i> კონტაქტი</a>
+    </header>
 
-    <!-- ================= HOME VIEW ================= -->
-    <div id="home-view" class="fade-in block pt-20">
-        
-        <!-- Hero Section -->
-        <header class="relative h-[70vh] flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000" 
-                     alt="Luxury Real Estate" 
-                     class="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]">
-                <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/80 to-black/50"></div>
-            </div>
-            <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
-                <div class="inline-flex items-center space-x-2 border border-bronze/40 bg-charcoal/60 backdrop-blur-md px-4 py-1.5 rounded-full mb-6 text-bronze text-xs uppercase tracking-[0.25em]">
-                    Exclusive Portfolio
-                </div>
-                <h1 class="text-4xl sm:text-6xl font-light tracking-tight text-white mb-6 leading-[1.1]">
-                    Redefining <span class="font-semibold text-bronze italic">Luxury</span> Living
-                </h1>
-                <p class="text-gray-300 text-lg font-light max-w-2xl mx-auto">
-                    Curated architectural masterpieces and iconic properties for the world's most discerning clientele.
-                </p>
-            </div>
-        </header>
-
-        <!-- Properties Grid Section -->
-        <section class="py-20 bg-charcoal">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="mb-12">
-                    <span class="text-bronze text-xs uppercase tracking-[0.25em] font-semibold block mb-2">Portfolio</span>
-                    <h2 class="text-3xl font-light text-white">Featured Residences</h2>
-                </div>
-                
-                <!-- Grid Container (Populated by JS) -->
-                <div id="property-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Cards will be injected here -->
-                </div>
-            </div>
+    <!-- 1. HOME PAGE (ბინების სია) -->
+    <div id="home-view" class="page-view active">
+        <section class="hero">
+            <h1>პრემიუმ კლასის ობიექტები</h1>
+            <p>საუკეთესო კომერციული და საცხოვრებელი ფართები თბილისში</p>
         </section>
-
-        <!-- Footer -->
-        <footer class="border-t border-white/10 py-10 text-center text-sm text-gray-500">
-            <p>&copy; 2026 Valdo Real Estate. All rights reserved.</p>
-        </footer>
-    </div>
-    <!-- ================= END HOME VIEW ================= -->
-
-
-    <!-- ================= DETAIL VIEW (MyHome Style Full Page) ================= -->
-    <div id="detail-view" class="hidden fade-in pt-20 bg-charcoal min-h-screen pb-20">
-        
-        <!-- Top Action Bar -->
-        <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-            <a href="#home" class="inline-flex items-center space-x-2 text-gray-400 hover:text-white transition-colors cursor-pointer group">
-                <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-bronze group-hover:bg-bronze/10">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </div>
-                <span class="text-sm font-medium uppercase tracking-wider">Back to Properties</span>
-            </a>
-            <div class="text-bronze font-semibold text-xl tracking-wide" id="detail-price-top"></div>
-        </div>
-
-        <!-- Massive Hero Image -->
-        <div class="max-w-7xl mx-auto px-6 mb-12">
-            <div class="w-full h-[50vh] sm:h-[60vh] rounded-3xl overflow-hidden relative border border-white/10 shadow-2xl">
-                <img id="detail-img" src="" alt="Property" class="w-full h-full object-cover">
-                <div class="absolute bottom-6 left-6 bg-charcoal/80 backdrop-blur-md px-4 py-2 rounded-xl text-xs uppercase tracking-widest text-bronze border border-bronze/30">
-                    Premium Listing
-                </div>
+        <div class="container">
+            <div class="grid" id="property-grid">
+                <!-- აქ ჯავასკრიპტი ჩასვამს ქარდებს -->
             </div>
         </div>
+    </div>
 
-        <!-- Property Details Content -->
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <!-- 2. DETAIL PAGE (კონკრეტული ობიექტის გვერდი) -->
+    <div id="detail-view" class="page-view">
+        <div class="container">
+            <a onclick="goHome()" class="back-btn"><i class="fas fa-arrow-left"></i> უკან დაბრუნება</a>
             
-            <!-- Left Column: Info & Description -->
-            <div class="lg:col-span-2 space-y-10">
+            <img id="d-hero-img" class="detail-hero-img" src="" alt="">
+            
+            <div class="detail-header">
                 <div>
-                    <h1 id="detail-title" class="text-3xl sm:text-4xl font-semibold text-white mb-4"></h1>
-                    <p id="detail-location" class="text-gray-400 flex items-center space-x-2 text-lg">
-                        <i class="fa-solid fa-location-dot text-bronze"></i>
-                        <span></span>
-                    </p>
+                    <h1 id="d-title" class="detail-title"></h1>
+                    <div id="d-location" class="detail-location"><i class="fas fa-map-marker-alt"></i> </div>
                 </div>
-
-                <div class="flex flex-wrap gap-4 py-6 border-t border-b border-white/10">
-                    <div class="bg-charcoal-light px-6 py-4 rounded-2xl border border-white/5 flex-1 min-w-[120px]">
-                        <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Price</span>
-                        <span id="detail-price" class="text-xl font-bold text-white"></span>
-                    </div>
-                    <div class="bg-charcoal-light px-6 py-4 rounded-2xl border border-white/5 flex-1 min-w-[120px]">
-                        <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Configuration</span>
-                        <span id="detail-rooms" class="text-lg font-medium text-white"></span>
-                    </div>
-                    <div class="bg-charcoal-light px-6 py-4 rounded-2xl border border-white/5 flex-1 min-w-[120px]">
-                        <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Area</span>
-                        <span id="detail-area" class="text-lg font-medium text-white"></span>
-                    </div>
+                <div class="detail-price-box">
+                    <div class="text-muted" style="font-size: 0.9rem; margin-bottom: 5px;">საწყისი ფასი</div>
+                    <div id="d-price" class="detail-price"></div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">დღგ-ს გარეშე</div>
                 </div>
+            </div>
 
+            <div class="detail-grid">
                 <div>
-                    <h3 class="text-xl font-medium text-white mb-4">Property Description</h3>
-                    <p id="detail-desc" class="text-gray-300 leading-relaxed font-light text-lg"></p>
+                    <h2 class="section-title">აღწერა</h2>
+                    <div id="d-desc" class="detail-desc"></div>
+                    
+                    <h2 class="section-title">ფოტოგალერეა</h2>
+                    <div id="d-gallery" class="gallery-grid"></div>
                 </div>
                 
                 <div>
-                    <h3 class="text-xl font-medium text-white mb-4">Amenities & Features</h3>
-                    <div id="detail-amenities" class="grid grid-cols-2 gap-4 text-gray-300 font-light">
-                        <!-- Amenities injected via JS -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column: Sticky Contact Card -->
-            <div class="relative">
-                <div class="sticky top-32 bg-charcoal-card p-8 rounded-3xl border border-white/10 shadow-2xl">
-                    <h3 class="text-xl font-semibold text-white mb-2">Interested in this property?</h3>
-                    <p class="text-sm text-gray-400 mb-8">Contact our exclusive brokerage team to schedule a private viewing or request more details.</p>
+                    <h2 class="section-title">მახასიათებლები</h2>
+                    <ul id="d-features" class="features-list"></ul>
                     
-                    <a id="detail-whatsapp" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm tracking-widest uppercase py-4 rounded-xl transition-all flex items-center justify-center space-x-3 mb-4 shadow-lg shadow-emerald-900/20">
-                        <i class="fa-brands fa-whatsapp text-xl"></i>
-                        <span>Message on WhatsApp</span>
-                    </a>
-                    
-                    <a href="tel:+995555123456" class="w-full bg-transparent border border-bronze/40 hover:bg-bronze hover:text-black text-bronze font-semibold text-sm tracking-widest uppercase py-4 rounded-xl transition-all flex items-center justify-center space-x-3">
-                        <i class="fa-solid fa-phone text-lg"></i>
-                        <span>+995 555 123 456</span>
+                    <a href="https://wa.me/995592613061" target="_blank" class="contact-btn" style="display: flex; justify-content: center; margin-top: 40px; padding: 15px; font-size: 1.1rem; background: var(--accent); color: #000;">
+                        <i class="fab fa-whatsapp"></i> მოითხოვეთ შეთავაზება
                     </a>
                 </div>
             </div>
-
         </div>
     </div>
-    <!-- ================= END DETAIL VIEW ================= -->
 
-    <!-- JavaScript Data & Routing Logic -->
+    <footer>
+        <p>&copy; 2026 Valdo Real Estate. 82 D. Uznadze St.</p>
+    </footer>
+
     <script>
-        // Data for the 3 specific properties
+        // შენი რეალური მონაცემები უზნაძის ქონებიდან
         const properties = [
             {
-                id: "uznadze-heritage",
-                title: "Uznadze Heritage Residence",
-                price: "$280,000",
-                location: "დ. უზნაძის ქუჩა, მთაწმინდა, თბილისი",
-                rooms: "3 ოთახი • 2 საძინებელი",
-                area: "110 მ²",
-                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
-                description: "ისტორიულ უბანში მდებარე პრემიუმ კლასის ბინა მაღალი ჭერით, დახვეწილი დიზაინით და სრული კომფორტით. უმაღლესი ხარისხის რემონტი, აღჭურვილია უახლესი ტექნიკითა და ექსკლუზიური ავეჯით. იდეალურია მათთვის, ვინც აფასებს ძველი თბილისის არქიტექტურას თანამედროვე ფუფუნებასთან ერთად.",
-                amenities: ["მაღალი ჭერი", "პრემიუმ რემონტი", "ცენტრალური გათბობა", "24/7 დაცვა", "ავტოფარეხი", "აივანი"]
-            },
-            {
                 id: "uznadze-leasing",
-                title: "Uznadze Commercial Leasing",
-                price: "$2,500 / თვეში",
-                location: "დ. უზნაძის ქუჩა, ჩუღურეთი, თბილისი",
-                rooms: "1 დიდი დარბაზი • 2 კაბინეტი",
-                area: "85 მ²",
-                image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
-                description: "იდეალური კომერციული ფართი საოფისე ან საბუტიკე საქმიანობისთვის, ცენტრალურ და მრავალხალხიან ადგილას. სივრცე სრულად გარემონტებულია ლოფტის სტილში, მოიცავს სველ წერტილებს და სამზარეულოს კუთხეს. მზად არის ოპერირებისთვის დამატებითი ინვესტიციის გარეშე.",
-                amenities: ["ვიტრაჟული ფანჯრები", "მაღალი გამავლობის ქუჩა", "სამზარეულო ზონა", "კონდიცირება", "სიგნალიზაცია", "პარკინგი კლიენტებისთვის"]
-            },
-            {
-                id: "rustaveli-opera",
-                title: "Rustaveli Opera Luxury Suite",
-                price: "$420,000",
-                location: "რუსთაველის გამზირი, მთაწმინდა, თბილისი",
-                rooms: "4 ოთახი • 3 საძინებელი",
-                area: "150 მ²",
-                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-                description: "ექსკლუზიური პენტჰაუსი პირდაპირ ოპერის თეატრის მიმდებარედ. ბინიდან იშლება ულამაზესი ხედები მთავარ გამზირსა და მთაწმინდაზე. აღჭურვილია იტალიური ავეჯით, სმარტ სახლის სისტემით და პრემიუმ კლასის მასალებით. წარმოადგენს იშვიათ საინვესტიციო შესაძლებლობას.",
-                amenities: ["პანორამული ხედები", "სმარტ სახლის სისტემა", "ტერასა", "იტალიური ავეჯი", "პირადი პარკინგი", "კონსიერჟი"]
+                title: "82 D. Uznadze St. — Commercial Leasing",
+                price: "$18,000 / თვეში",
+                location: "დ. უზნაძის 82, ჩუღურეთი, თბილისი",
+                specs: "1,429 მ² • 4 სართული • კერძო ეზო",
+                image: "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/back-phasade-aesthetic-double-wall.jpg", // მთავარი ფოტო
+                description: "რესტავრირებული მე-19 საუკუნის კომერციული შენობა თბილისის ცენტრში (მარჯანიშვილის მეტროდან 5 წუთის სავალზე). იდეალურია კორპორატიული სათავო ოფისისთვის, IT ჰაბისთვის, საელჩოსთვის ან კლინიკისთვის. მოიცავს კერძო ეზოს (245 მ²), პარკინგს 5-6 ავტომობილზე, Daikin VRV კლიმატ-კონტროლის სისტემას და მაღალ ენერგოეფექტურობას. საერთო ფართი: 1,429 მ² (გამოსაყენებელი: 1,271.4 მ²).",
+                features: [
+                    "საერთო ფართი: 1,429 მ²",
+                    "კერძო ეზო: 245 მ²",
+                    "5-6 საპარკინგე ადგილი",
+                    "Daikin VRV კლიმატ-კონტროლი",
+                    "4 სართული + სარდაფი",
+                    "ტერასა (24.7 მ²)",
+                    "Grohe / Hansgrohe სანტექნიკა",
+                    "მარჯანიშვილის მეტრომდე 450მ"
+                ],
+                gallery: [
+                    "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/phasade.jpg",
+                    "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/back-phasade-aesthetic.jpg",
+                    "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/board room.jpg",
+                    "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/office.jpg",
+                    "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/staircase picture.jpg",
+                    "https://rezimaqacaria-ctrl.github.io/uznadze-leasing-/terrace.jpg"
+                ]
             }
         ];
 
-        // 1. Render properties on the Home View
+        // 1. გამოვაჩინოთ ქარდები მთავარ გვერდზე
         const grid = document.getElementById('property-grid');
-        
         properties.forEach(prop => {
-            const cardHTML = `
-                <a href="#${prop.id}" class="block group bg-charcoal-card rounded-2xl overflow-hidden border border-white/5 hover:border-bronze/50 transition-all duration-300 shadow-xl">
-                    <div class="relative h-64 overflow-hidden">
-                        <img src="${prop.image}" alt="${prop.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                        <div class="absolute bottom-4 right-4 bg-charcoal/90 backdrop-blur-md px-4 py-2 rounded-xl text-white font-bold border border-white/10">
-                            ${prop.price}
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-medium text-white mb-2 group-hover:text-bronze transition-colors">${prop.title}</h3>
-                        <p class="text-gray-400 text-sm mb-4"><i class="fa-solid fa-location-dot text-bronze mr-1"></i> ${prop.location}</p>
-                        <div class="flex items-center text-xs text-gray-500 uppercase tracking-wider space-x-4 border-t border-white/5 pt-4">
-                            <span><i class="fa-solid fa-door-open text-bronze mr-1"></i> ${prop.rooms.split('•')[0]}</span>
-                            <span><i class="fa-solid fa-ruler-combined text-bronze mr-1"></i> ${prop.area}</span>
-                        </div>
-                    </div>
-                </a>
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => window.location.hash = prop.id; // ქარდზე დაჭერისას ლინკი იცვლება
+            card.innerHTML = `
+                <img class="card-img" src="${prop.image}" alt="${prop.title}">
+                <div class="card-content">
+                    <div class="card-price">${prop.price}</div>
+                    <div class="card-title">${prop.title}</div>
+                    <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>
+                    <div class="card-specs">${prop.specs}</div>
+                </div>
             `;
-            grid.innerHTML += cardHTML;
+            grid.appendChild(card);
         });
 
-        // 2. Routing Logic (SPA functionality via Hash)
-        const homeView = document.getElementById('home-view');
-        const detailView = document.getElementById('detail-view');
-
-        function handleRoute() {
-            const hash = window.location.hash.substring(1); // Remove the '#'
+        // 2. გვერდების გადართვის (SPA) ლოგიკა
+        function handleRouting() {
+            const hash = window.location.hash.substring(1); // იღებს id-ს (მაგ: 'uznadze-leasing')
             
-            if (!hash || hash === 'home') {
-                // Show Home
-                detailView.classList.add('hidden');
-                homeView.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                // Try to find the property by ID
-                const property = properties.find(p => p.id === hash);
-                if (property) {
-                    // Populate Detail View
-                    document.getElementById('detail-img').src = property.image;
-                    document.getElementById('detail-title').innerText = property.title;
-                    document.getElementById('detail-location').querySelector('span').innerText = property.location;
-                    document.getElementById('detail-price').innerText = property.price;
-                    document.getElementById('detail-price-top').innerText = property.price;
-                    document.getElementById('detail-rooms').innerText = property.rooms;
-                    document.getElementById('detail-area').innerText = property.area;
-                    document.getElementById('detail-desc').innerText = property.description;
-                    
-                    // WhatsApp link with pre-filled message
-                    const waMessage = encodeURIComponent(`გამარჯობა, მაინტერესებს ინფორმაცია ობიექტზე: ${property.title}`);
-                    document.getElementById('detail-whatsapp').href = `https://wa.me/995555123456?text=${waMessage}`;
-
-                    // Populate Amenities
-                    const amenitiesContainer = document.getElementById('detail-amenities');
-                    amenitiesContainer.innerHTML = '';
-                    property.amenities.forEach(item => {
-                        amenitiesContainer.innerHTML += `<div class="flex items-center space-x-2"><i class="fa-solid fa-check text-bronze text-sm"></i> <span>${item}</span></div>`;
-                    });
-
-                    // Switch Views
-                    homeView.classList.add('hidden');
-                    detailView.classList.remove('hidden');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (hash) {
+                const prop = properties.find(p => p.id === hash);
+                if (prop) {
+                    showDetailView(prop);
+                } else {
+                    goHome();
                 }
+            } else {
+                goHome();
             }
         }
 
-        // Listen for URL changes
-        window.addEventListener('hashchange', handleRoute);
-        
-        // Check route on initial load
-        handleRoute();
+        function showDetailView(prop) {
+            document.getElementById('home-view').classList.remove('active');
+            document.getElementById('detail-view').classList.add('active');
+            
+            // ინფორმაციის შევსება
+            document.getElementById('d-hero-img').src = prop.image;
+            document.getElementById('d-title').innerText = prop.title;
+            document.getElementById('d-price').innerText = prop.price;
+            document.getElementById('d-location').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${prop.location}`;
+            document.getElementById('d-desc').innerText = prop.description;
+            
+            // მახასიათებლები
+            const featuresList = document.getElementById('d-features');
+            featuresList.innerHTML = '';
+            prop.features.forEach(feat => {
+                featuresList.innerHTML += `<li><i class="fas fa-check"></i> ${feat}</li>`;
+            });
+            
+            // ფოტოგალერეა
+            const galleryDiv = document.getElementById('d-gallery');
+            galleryDiv.innerHTML = '';
+            prop.gallery.forEach(imgUrl => {
+                galleryDiv.innerHTML += `<img src="${imgUrl}" alt="Gallery Image" onclick="window.open('${imgUrl}', '_blank')">`;
+            });
 
+            window.scrollTo(0, 0); // გვერდის თავში ატანა
+        }
+
+        function goHome() {
+            window.location.hash = ''; // URL-ის გასუფთავება
+            document.getElementById('detail-view').classList.remove('active');
+            document.getElementById('home-view').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // როცა ლინკი იცვლება (მაგალითად ბექ ღილაკით), ვუსმენთ
+        window.addEventListener('hashchange', handleRouting);
+        // საწყისი ჩატვირთვა
+        window.addEventListener('load', handleRouting);
     </script>
 </body>
 </html>

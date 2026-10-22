@@ -1,399 +1,315 @@
 <!DOCTYPE html>
-<html lang="ka">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valdo Real Estate | Luxury Properties in Tbilisi</title>
+    <title>Valdo Real Estate | Exclusive Properties</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#0a0a0a',
+                        'charcoal-light': '#141414',
+                        'charcoal-card': '#1a1a1a',
+                        bronze: '#d4af37', // Luxury Gold/Bronze
+                        'bronze-dark': '#b5952f',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
     <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --bg-dark: #0a0a0a;
-            --card-bg: #141414;
-            --border-color: #262626;
-            --text-main: #ffffff;
-            --text-muted: #a3a3a3;
-            --accent: #d4af37; /* Luxury Gold */
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        header {
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            text-transform: uppercase;
-        }
-
-        .logo span {
-            color: var(--accent);
-        }
-
-        .contact-btn {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            padding: 8px 20px;
-            border-radius: 4px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .contact-btn:hover {
-            background: var(--accent);
-            color: var(--bg-dark);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 60px 5% 30px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        /* Properties Grid */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 5%;
-            flex: 1;
-            width: 100%;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .card-img-container {
-            width: 100%;
-            height: 250px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .card-img-container img {
-            transform: scale(1.05);
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-price {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .card-location {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .card-specs {
-            display: flex;
-            gap: 15px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .card-specs span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Modal Details */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            padding: 30px;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--border-color);
-            border: none;
-            color: var(--text-main);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .close-modal:hover {
-            background: var(--accent);
-            color: var(--bg-dark);
-        }
-
-        .modal-img {
-            width: 100%;
-            height: 350px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .modal-price {
-            font-size: 1.5rem;
-            color: var(--accent);
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .modal-desc {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            padding: 30px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        @media(max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .grid { grid-template-columns: 1fr; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+        
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body>
+<body class="bg-charcoal text-gray-200 font-sans antialiased selection:bg-bronze selection:text-black">
 
-    <header>
-        <div class="logo">Valdo <span>Real Estate</span></div>
-        <a href="https://wa.me/" target="_blank" class="contact-btn">
-            <i class="fab fa-whatsapp"></i> კონტაქტი
-        </a>
-    </header>
-
-    <section class="hero">
-        <h1>ექსკლუზიური უძრავი ქონება</h1>
-        <p>აირჩიეთ საუკეთესო პრემიუმ კლასის ობიექტები თბილისში</p>
-    </section>
-
-    <div class="container">
-        <div class="grid" id="property-grid">
-            <!-- JavaScript dynamically injects properties here -->
-        </div>
-    </div>
-
-    <!-- Details Modal -->
-    <div class="modal" id="property-modal">
-        <div class="modal-content">
-            <button class="close-modal" id="close-modal-btn"><i class="fas fa-times"></i></button>
-            <img id="modal-image" class="modal-img" src="" alt="">
-            <div id="modal-price" class="modal-price"></div>
-            <div id="modal-title" class="modal-title"></div>
-            <div id="modal-location" class="card-location" style="margin-bottom: 15px;"></div>
-            <div id="modal-specs" class="card-specs" style="margin-bottom: 20px;"></div>
-            <div id="modal-desc" class="modal-desc"></div>
-            <a href="https://wa.me/" target="_blank" class="contact-btn" style="width: 100%; justify-content: center; padding: 12px;">
-                <i class="fab fa-whatsapp"></i> WhatsApp-ით დაკავშირება
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-charcoal/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center space-x-2 group cursor-pointer">
+                <span class="text-2xl font-bold tracking-[0.2em] text-white uppercase group-hover:text-bronze transition-colors">VALDO</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-bronze"></span>
             </a>
+            <div class="flex items-center space-x-4">
+                <a href="https://wa.me/" target="_blank" class="hidden sm:flex items-center space-x-2 text-xs uppercase tracking-widest text-bronze border border-bronze/40 px-5 py-2.5 rounded-full hover:bg-bronze hover:text-black transition-all">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Contact Us</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HOME VIEW ================= -->
+    <div id="home-view" class="fade-in block pt-20">
+        
+        <!-- Hero Section -->
+        <header class="relative h-[70vh] flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000" 
+                     alt="Luxury Real Estate" 
+                     class="w-full h-full object-cover object-center scale-105 animate-pulse duration-[10000ms]">
+                <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/80 to-black/50"></div>
+            </div>
+            <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+                <div class="inline-flex items-center space-x-2 border border-bronze/40 bg-charcoal/60 backdrop-blur-md px-4 py-1.5 rounded-full mb-6 text-bronze text-xs uppercase tracking-[0.25em]">
+                    Exclusive Portfolio
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-light tracking-tight text-white mb-6 leading-[1.1]">
+                    Redefining <span class="font-semibold text-bronze italic">Luxury</span> Living
+                </h1>
+                <p class="text-gray-300 text-lg font-light max-w-2xl mx-auto">
+                    Curated architectural masterpieces and iconic properties for the world's most discerning clientele.
+                </p>
+            </div>
+        </header>
+
+        <!-- Properties Grid Section -->
+        <section class="py-20 bg-charcoal">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="mb-12">
+                    <span class="text-bronze text-xs uppercase tracking-[0.25em] font-semibold block mb-2">Portfolio</span>
+                    <h2 class="text-3xl font-light text-white">Featured Residences</h2>
+                </div>
+                
+                <!-- Grid Container (Populated by JS) -->
+                <div id="property-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/10 py-10 text-center text-sm text-gray-500">
+            <p>&copy; 2026 Valdo Real Estate. All rights reserved.</p>
+        </footer>
+    </div>
+    <!-- ================= END HOME VIEW ================= -->
+
+
+    <!-- ================= DETAIL VIEW (MyHome Style Full Page) ================= -->
+    <div id="detail-view" class="hidden fade-in pt-20 bg-charcoal min-h-screen pb-20">
+        
+        <!-- Top Action Bar -->
+        <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+            <a href="#home" class="inline-flex items-center space-x-2 text-gray-400 hover:text-white transition-colors cursor-pointer group">
+                <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-bronze group-hover:bg-bronze/10">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <span class="text-sm font-medium uppercase tracking-wider">Back to Properties</span>
+            </a>
+            <div class="text-bronze font-semibold text-xl tracking-wide" id="detail-price-top"></div>
+        </div>
+
+        <!-- Massive Hero Image -->
+        <div class="max-w-7xl mx-auto px-6 mb-12">
+            <div class="w-full h-[50vh] sm:h-[60vh] rounded-3xl overflow-hidden relative border border-white/10 shadow-2xl">
+                <img id="detail-img" src="" alt="Property" class="w-full h-full object-cover">
+                <div class="absolute bottom-6 left-6 bg-charcoal/80 backdrop-blur-md px-4 py-2 rounded-xl text-xs uppercase tracking-widest text-bronze border border-bronze/30">
+                    Premium Listing
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Details Content -->
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-12">
+            
+            <!-- Left Column: Info & Description -->
+            <div class="lg:col-span-2 space-y-10">
+                <div>
+                    <h1 id="detail-title" class="text-3xl sm:text-4xl font-semibold text-white mb-4"></h1>
+                    <p id="detail-location" class="text-gray-400 flex items-center space-x-2 text-lg">
+                        <i class="fa-solid fa-location-dot text-bronze"></i>
+                        <span></span>
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-4 py-6 border-t border-b border-white/10">
+                    <div class="bg-charcoal-light px-6 py-4 rounded-2xl border border-white/5 flex-1 min-w-[120px]">
+                        <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Price</span>
+                        <span id="detail-price" class="text-xl font-bold text-white"></span>
+                    </div>
+                    <div class="bg-charcoal-light px-6 py-4 rounded-2xl border border-white/5 flex-1 min-w-[120px]">
+                        <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Configuration</span>
+                        <span id="detail-rooms" class="text-lg font-medium text-white"></span>
+                    </div>
+                    <div class="bg-charcoal-light px-6 py-4 rounded-2xl border border-white/5 flex-1 min-w-[120px]">
+                        <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Area</span>
+                        <span id="detail-area" class="text-lg font-medium text-white"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-medium text-white mb-4">Property Description</h3>
+                    <p id="detail-desc" class="text-gray-300 leading-relaxed font-light text-lg"></p>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-medium text-white mb-4">Amenities & Features</h3>
+                    <div id="detail-amenities" class="grid grid-cols-2 gap-4 text-gray-300 font-light">
+                        <!-- Amenities injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Sticky Contact Card -->
+            <div class="relative">
+                <div class="sticky top-32 bg-charcoal-card p-8 rounded-3xl border border-white/10 shadow-2xl">
+                    <h3 class="text-xl font-semibold text-white mb-2">Interested in this property?</h3>
+                    <p class="text-sm text-gray-400 mb-8">Contact our exclusive brokerage team to schedule a private viewing or request more details.</p>
+                    
+                    <a id="detail-whatsapp" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm tracking-widest uppercase py-4 rounded-xl transition-all flex items-center justify-center space-x-3 mb-4 shadow-lg shadow-emerald-900/20">
+                        <i class="fa-brands fa-whatsapp text-xl"></i>
+                        <span>Message on WhatsApp</span>
+                    </a>
+                    
+                    <a href="tel:+995555123456" class="w-full bg-transparent border border-bronze/40 hover:bg-bronze hover:text-black text-bronze font-semibold text-sm tracking-widest uppercase py-4 rounded-xl transition-all flex items-center justify-center space-x-3">
+                        <i class="fa-solid fa-phone text-lg"></i>
+                        <span>+995 555 123 456</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
+    <!-- ================= END DETAIL VIEW ================= -->
 
-    <footer>
-        <p>&copy; 2026 Valdo Real Estate. ყველა უფლება დაცულია.</p>
-    </footer>
-
+    <!-- JavaScript Data & Routing Logic -->
     <script>
+        // Data for the 3 specific properties
         const properties = [
             {
-                id: 1,
+                id: "uznadze-heritage",
                 title: "Uznadze Heritage Residence",
                 price: "$280,000",
                 location: "დ. უზნაძის ქუჩა, მთაწმინდა, თბილისი",
-                specs: "3 ოთახი • 2 საძინებელი • 110 მ²",
-                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
-                description: "ისტორიულ უბანში მდებარე პრემიუმ კლასის ბინა მაღალი ჭერით, დახვეწილი დიზაინით და სრული კომფორტით. უმაღლესი ხარისხის რემონტი და ტექნიკა."
+                rooms: "3 ოთახი • 2 საძინებელი",
+                area: "110 მ²",
+                image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+                description: "ისტორიულ უბანში მდებარე პრემიუმ კლასის ბინა მაღალი ჭერით, დახვეწილი დიზაინით და სრული კომფორტით. უმაღლესი ხარისხის რემონტი, აღჭურვილია უახლესი ტექნიკითა და ექსკლუზიური ავეჯით. იდეალურია მათთვის, ვინც აფასებს ძველი თბილისის არქიტექტურას თანამედროვე ფუფუნებასთან ერთად.",
+                amenities: ["მაღალი ჭერი", "პრემიუმ რემონტი", "ცენტრალური გათბობა", "24/7 დაცვა", "ავტოფარეხი", "აივანი"]
             },
             {
-                id: 2,
+                id: "uznadze-leasing",
                 title: "Uznadze Commercial Leasing",
                 price: "$2,500 / თვეში",
                 location: "დ. უზნაძის ქუჩა, ჩუღურეთი, თბილისი",
-                specs: "კომერციული ფართი • 1 დარბაზი • 85 მ²",
-                image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-                description: "იდეალური კომერციული ფართი საოფისე ან საბუტიკე საქმიანობისთვის, ცენტრალურ და მრავალხალხიან ადგილას. სრულიად გარემონტებული და მზად ოპერირებისთვის."
+                rooms: "1 დიდი დარბაზი • 2 კაბინეტი",
+                area: "85 მ²",
+                image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+                description: "იდეალური კომერციული ფართი საოფისე ან საბუტიკე საქმიანობისთვის, ცენტრალურ და მრავალხალხიან ადგილას. სივრცე სრულად გარემონტებულია ლოფტის სტილში, მოიცავს სველ წერტილებს და სამზარეულოს კუთხეს. მზად არის ოპერირებისთვის დამატებითი ინვესტიციის გარეშე.",
+                amenities: ["ვიტრაჟული ფანჯრები", "მაღალი გამავლობის ქუჩა", "სამზარეულო ზონა", "კონდიცირება", "სიგნალიზაცია", "პარკინგი კლიენტებისთვის"]
             },
             {
-                id: 3,
+                id: "rustaveli-opera",
                 title: "Rustaveli Opera Luxury Suite",
                 price: "$420,000",
                 location: "რუსთაველის გამზირი, მთაწმინდა, თბილისი",
-                specs: "4 ოთახი • 3 საძინებელი • 150 მ²",
-                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-                description: "ექსკლუზიური პენტჰაუსი ოპერის თეატრის მიმდებარედ. საუკეთესო ხედები ქალაქზე, პრემიუმ დონის ავეჯი, დაცული შესასვლელი და პარკინგი."
+                rooms: "4 ოთახი • 3 საძინებელი",
+                area: "150 მ²",
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+                description: "ექსკლუზიური პენტჰაუსი პირდაპირ ოპერის თეატრის მიმდებარედ. ბინიდან იშლება ულამაზესი ხედები მთავარ გამზირსა და მთაწმინდაზე. აღჭურვილია იტალიური ავეჯით, სმარტ სახლის სისტემით და პრემიუმ კლასის მასალებით. წარმოადგენს იშვიათ საინვესტიციო შესაძლებლობას.",
+                amenities: ["პანორამული ხედები", "სმარტ სახლის სისტემა", "ტერასა", "იტალიური ავეჯი", "პირადი პარკინგი", "კონსიერჟი"]
             }
         ];
 
+        // 1. Render properties on the Home View
         const grid = document.getElementById('property-grid');
-        const modal = document.getElementById('property-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-
-        // Render properties
+        
         properties.forEach(prop => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-img-container">
-                    <img src="${prop.image}" alt="${prop.title}">
-                </div>
-                <div class="card-content">
-                    <div class="card-price">${prop.price}</div>
-                    <div class="card-title">${prop.title}</div>
-                    <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>
-                    <div class="card-specs"><span><i class="fas fa-vector-square"></i> ${prop.specs}</span></div>
-                </div>
+            const cardHTML = `
+                <a href="#${prop.id}" class="block group bg-charcoal-card rounded-2xl overflow-hidden border border-white/5 hover:border-bronze/50 transition-all duration-300 shadow-xl">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="${prop.image}" alt="${prop.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute bottom-4 right-4 bg-charcoal/90 backdrop-blur-md px-4 py-2 rounded-xl text-white font-bold border border-white/10">
+                            ${prop.price}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-medium text-white mb-2 group-hover:text-bronze transition-colors">${prop.title}</h3>
+                        <p class="text-gray-400 text-sm mb-4"><i class="fa-solid fa-location-dot text-bronze mr-1"></i> ${prop.location}</p>
+                        <div class="flex items-center text-xs text-gray-500 uppercase tracking-wider space-x-4 border-t border-white/5 pt-4">
+                            <span><i class="fa-solid fa-door-open text-bronze mr-1"></i> ${prop.rooms.split('•')[0]}</span>
+                            <span><i class="fa-solid fa-ruler-combined text-bronze mr-1"></i> ${prop.area}</span>
+                        </div>
+                    </div>
+                </a>
             `;
-            card.addEventListener('click', () => openModal(prop));
-            grid.appendChild(card);
+            grid.innerHTML += cardHTML;
         });
 
-        function openModal(prop) {
-            document.getElementById('modal-image').src = prop.image;
-            document.getElementById('modal-price').innerText = prop.price;
-            document.getElementById('modal-title').innerText = prop.title;
-            document.getElementById('modal-location').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${prop.location}`;
-            document.getElementById('modal-specs').innerHTML = `<span><i class="fas fa-vector-square"></i> ${prop.specs}</span>`;
-            document.getElementById('modal-desc').innerText = prop.description;
-            modal.classList.add('active');
+        // 2. Routing Logic (SPA functionality via Hash)
+        const homeView = document.getElementById('home-view');
+        const detailView = document.getElementById('detail-view');
+
+        function handleRoute() {
+            const hash = window.location.hash.substring(1); // Remove the '#'
+            
+            if (!hash || hash === 'home') {
+                // Show Home
+                detailView.classList.add('hidden');
+                homeView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                // Try to find the property by ID
+                const property = properties.find(p => p.id === hash);
+                if (property) {
+                    // Populate Detail View
+                    document.getElementById('detail-img').src = property.image;
+                    document.getElementById('detail-title').innerText = property.title;
+                    document.getElementById('detail-location').querySelector('span').innerText = property.location;
+                    document.getElementById('detail-price').innerText = property.price;
+                    document.getElementById('detail-price-top').innerText = property.price;
+                    document.getElementById('detail-rooms').innerText = property.rooms;
+                    document.getElementById('detail-area').innerText = property.area;
+                    document.getElementById('detail-desc').innerText = property.description;
+                    
+                    // WhatsApp link with pre-filled message
+                    const waMessage = encodeURIComponent(`გამარჯობა, მაინტერესებს ინფორმაცია ობიექტზე: ${property.title}`);
+                    document.getElementById('detail-whatsapp').href = `https://wa.me/995555123456?text=${waMessage}`;
+
+                    // Populate Amenities
+                    const amenitiesContainer = document.getElementById('detail-amenities');
+                    amenitiesContainer.innerHTML = '';
+                    property.amenities.forEach(item => {
+                        amenitiesContainer.innerHTML += `<div class="flex items-center space-x-2"><i class="fa-solid fa-check text-bronze text-sm"></i> <span>${item}</span></div>`;
+                    });
+
+                    // Switch Views
+                    homeView.classList.add('hidden');
+                    detailView.classList.remove('hidden');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
         }
 
-        closeModalBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
+        // Listen for URL changes
+        window.addEventListener('hashchange', handleRoute);
+        
+        // Check route on initial load
+        handleRoute();
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
     </script>
 </body>
 </html>
